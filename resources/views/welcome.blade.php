@@ -27,12 +27,23 @@
                         @if (Route::has('login'))
                             <nav class="-mx-3 flex flex-1 justify-end">
                                 @auth
-                                    <a
-                                        href="{{ url('/dashboard') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Dashboard
-                                    </a>
+                                <a class="navbar-brand" href="
+                                @if(Auth::check())
+                                    @if(Auth::user()->type === 'user')
+                                        {{ url('/home') }}
+                                    @elseif(Auth::user()->type === 'admin')
+                                        {{ url('/admin/home') }}
+                                    @elseif(Auth::user()->type === 'manager')
+                                        {{ url('/manager/home') }}
+                                    @else
+                                        {{ url('/') }}  {{-- Lien par défaut si le type d'utilisateur ne correspond à aucun cas --}}
+                                    @endif
+                                @else
+                                    {{ url('/') }}  {{-- Lien pour les utilisateurs non authentifiés --}}
+                                @endif
+                                        ">
+                                        dashboard
+                            </a>
                                 @else
                                     <a
                                         href="{{ route('login') }}"

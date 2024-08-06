@@ -20,8 +20,22 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel 11 Multi Auth - ItSolutionStuff.com
+                <a class="navbar-brand" href="
+                    @if(Auth::check())
+                        @if(Auth::user()->type === 'user')
+                            {{ url('/home') }}
+                        @elseif(Auth::user()->type === 'admin')
+                            {{ url('/admin/home') }}
+                        @elseif(Auth::user()->type === 'manager')
+                            {{ url('/manager/home') }}
+                        @else
+                            {{ url('/') }}  {{-- Lien par défaut si le type d'utilisateur ne correspond à aucun cas --}}
+                        @endif
+                    @else
+                        {{ url('/') }}  {{-- Lien pour les utilisateurs non authentifiés --}}
+                    @endif
+                            ">
+                            dashboard
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
